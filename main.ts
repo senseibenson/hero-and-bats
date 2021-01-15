@@ -1,3 +1,10 @@
+scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.chestClosed, function (sprite, location) {
+    game.over(true)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    otherSprite.destroy()
+    info.changeLifeBy(-1)
+})
 let mySprite: Sprite = null
 let play = sprites.create(img`
     . . . . . . f f f f . . . . . . 
@@ -20,6 +27,7 @@ let play = sprites.create(img`
 controller.moveSprite(play)
 tiles.setTilemap(tilemap`level`)
 scene.cameraFollowSprite(play)
+info.setLife(3)
 game.onUpdateInterval(200, function () {
     mySprite = sprites.create(img`
         . . f f f . . . . . . . . . . . 
@@ -38,8 +46,8 @@ game.onUpdateInterval(200, function () {
         . . . f f f f f f f . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
-        `, SpriteKind.Player)
-    mySprite.setPosition(160, randint(0, 240))
+        `, SpriteKind.Enemy)
+    tiles.placeOnRandomTile(mySprite, sprites.castle.tilePath6)
     mySprite.setVelocity(-50, 0)
     mySprite.setFlag(SpriteFlag.DestroyOnWall, true)
 })
